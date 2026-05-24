@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharp Cuts — Testimonials</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+  <!-- Admin CSS -->
+  <link rel="stylesheet" href="/admin/assets/css/admin.css">
+
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Auth check -->
+  <script>
+    try {
+      const token = localStorage.getItem("token");
+      const user  = JSON.parse(localStorage.getItem("user") || "null");
+
+      if (!token || !user || user.role !== "admin") {
+        window.location.href = "/admin/login.html";
+      }
+    } catch {
+      window.location.href = "/admin/login.html";
+    }
+  </script>
+
+</head>
+
+<body>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="bi bi-scissors"></i></div>
+    <div>
+      <div class="brand-name">Sharp Cuts</div>
+      <div class="brand-sub">Admin Panel</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="/admin/index.html" class="nav-item">Dashboard</a>
+    <a href="/admin/bookings.html" class="nav-item">Bookings</a>
+    <a href="/admin/orders.html" class="nav-item">Orders</a>
+    <a href="/admin/barbers.html" class="nav-item">Barbers</a>
+    <a href="/admin/services.html" class="nav-item">Services</a>
+    <a href="/admin/service-categories.html" class="nav-item">Service Categories</a>
+    <a href="/admin/products.html" class="nav-item">Products</a>
+    <a href="/admin/testimonials.html" class="nav-item active">Testimonials</a>
+    <a href="/admin/users.html" class="nav-item">Users</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="admin-avatar"><i class="bi bi-person-fill"></i></div>
+
+    <div class="admin-info">
+      <div class="admin-name" id="adminName"></div>
+      <div class="admin-email" id="adminEmail"></div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">
+      <i class="bi bi-box-arrow-right"></i>
+    </button>
+  </div>
+</aside>
+
+
+<!-- MAIN -->
+<div class="main">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Testimonials</h3>
+    <button class="btn btn-warning" onclick="openModal()">+ Add Testimonial</button>
+  </div>
+
+  <table id="testimonialTable" class="display table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Comment</th>
+        <th>Image</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody id="testimonialBody"></tbody>
+  </table>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="testimonialModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Add Testimonial</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label>Name</label>
+          <input class="form-control" id="fName">
+        </div>
+
+        <div class="mb-3">
+          <label>Customer Type</label>
+          <input class="form-control" id="fType">
+        </div>
+
+        <div class="mb-3">
+          <label>Comment</label>
+          <textarea class="form-control" id="fComment"></textarea>
+        </div>
+
+        <!-- MULTER IMAGE UPLOAD -->
+        <div class="mb-3">
+          <label>Image</label>
+          <input type="file" class="form-control" id="fImage">
+        </div>
+
+        <div class="mb-3">
+          <label>Status</label>
+          <select class="form-select" id="fActive">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-warning" onclick="saveTestimonial()">Save</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+let testimonials = [];
+let editId = null;
+
+const modal = new bootstrap.Modal(document.getElementById("testimonialModal"));
+
+function getToken() {
+  return localStorage.getItem("token");
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = "/admin/login.html";
+}
+
+const user = JSON.parse(localStorage.getItem("user") || "null");
+
+if (user) {
+  document.getElementById("adminName").innerText =
+    user.first_name ? `${user.first_name} ${user.last_name}` : "Admin";
+
+  document.getElementById("adminEmail").innerText =
+    user.email || "";
+}
+
+/* ───────── LOAD TESTIMONIALS ───────── */
+async function loadTestimonials() {
+
+  const res = await fetch("/api/testimonials");
+  const data = await res.json();
+
+  testimonials = data.data;
+
+  document.getElementById("testimonialBody").innerHTML = testimonials.map((t, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${t.reviewer_name}</td>
+      <td>${t.customer_type || "-"}</td>
+      <td>${t.comment}</td>
+      <td>
+        ${t.image_url
+          ? `<img src="${t.image_url}" width="50" height="50" style="object-fit:cover;border-radius:5px;">`
+          : "-"}
+      </td>
+      <td>
+        <span class="badge ${t.is_active ? 'bg-success' : 'bg-secondary'}">
+          ${t.is_active ? 'Active' : 'Inactive'}
+        </span>
+      </td>
+      <td>
+        <button class="btn btn-sm btn-outline-secondary" onclick="openModal(${t.testimonial_id})">
+          <i class="bi bi-pencil"></i>
+        </button>
+
+        <button class="btn btn-sm btn-danger" onclick="deleteTestimonial(${t.testimonial_id})">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    </tr>
+  `).join("");
+
+  if ($.fn.DataTable.isDataTable('#testimonialTable')) {
+    $('#testimonialTable').DataTable().destroy();
+  }
+
+  $('#testimonialTable').DataTable();
+}
+
+/* ───────── OPEN MODAL ───────── */
+function openModal(id = null) {
+  editId = id;
+  resetForm();
+
+  if (id) {
+    const t = testimonials.find(x => x.testimonial_id === id);
+
+    fName.value = t.reviewer_name;
+    fType.value = t.customer_type;
+    fComment.value = t.comment;
+    fActive.value = t.is_active ? "true" : "false";
+
+    modal._element.querySelector(".modal-title").innerText = "Edit Testimonial";
+  } else {
+    modal._element.querySelector(".modal-title").innerText = "Add Testimonial";
+  }
+
+  modal.show();
+}
+
+/* ───────── RESET FORM ───────── */
+function resetForm() {
+  fName.value = "";
+  fType.value = "";
+  fComment.value = "";
+  fImage.value = "";
+  fActive.value = "true";
+}
+
+/* ───────── SAVE (MULTER FORM DATA) ───────── */
+async function saveTestimonial() {
+
+  const formData = new FormData();
+
+  formData.append("reviewer_name", fName.value.trim());
+  formData.append("customer_type", fType.value.trim());
+  formData.append("comment", fComment.value.trim());
+  formData.append("is_active", fActive.value);
+
+  const file = fImage.files[0];
+  if (file) {
+    formData.append("image", file);
+  }
+
+  const url = editId
+    ? `/api/testimonials/${editId}`
+    : "/api/testimonials";
+
+  const method = editId ? "PUT" : "POST";
+
+  const res = await fetch(url, {
+    method,
+    headers: {
+      Authorization: "Bearer " + getToken()
+    },
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if (!data.success) {
+    Swal.fire("Error", data.message || "Failed", "error");
+    return;
+  }
+
+  modal.hide();
+  loadTestimonials();
+
+  Swal.fire({
+    icon: "success",
+    title: editId ? "Updated" : "Created",
+    timer: 1500,
+    showConfirmButton: false
+  });
+}
+
+/* ───────── DELETE ───────── */
+async function deleteTestimonial(id) {
+
+  const confirm = await Swal.fire({
+    title: "Delete testimonial?",
+    icon: "warning",
+    showCancelButton: true
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  const res = await fetch(`/api/testimonials/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + getToken()
+    }
+  });
+
+  const data = await res.json();
+
+  if (!data.success) {
+    Swal.fire("Error", data.message, "error");
+    return;
+  }
+
+  loadTestimonials();
+
+  Swal.fire("Deleted", "", "success");
+}
+
+/* INIT */
+loadTestimonials();
+
+</script>
+
+</body>
+</html>

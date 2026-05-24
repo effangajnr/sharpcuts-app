@@ -1,0 +1,10 @@
+{
+  "openingHours": {
+    "weekdays": {
+      "label": "Monday – Saturday",
+      "open": "9:00 AM",
+      "close": "8:00 PM"
+    }
+  }
+}
+

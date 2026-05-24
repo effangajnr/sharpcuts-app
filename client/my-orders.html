@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Orders | Sharp Cuts Barber Portsmouth</title>
+
+  <meta name="description" content="View and manage your Sharp Cuts Barber appointments and product orders in Portsmouth.">
+
+  <meta name="keywords" content="barber Portsmouth, barber shop UK, appointments, grooming products, orders">
+
+  <meta name="author" content="Sharp Cuts Barber">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sharp Cuts Barber">
+  <meta property="og:description" content="Professional haircuts and grooming services in Portsmouth.">
+  <meta property="og:image" content="assets/img/logo.png">
+  <meta property="og:type" content="website">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.sharpcutsbarber.com/orders.html">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR START
+========================= -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand" href="index.html">
+      <img src="assets/img/logo.png" alt="Sharp Cuts Barber Logo" height="70">
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+
+      <!-- Center Links -->
+      <ul class="navbar-nav mx-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="services.html">Services</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="products.html">Products</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="gallery.html">Gallery</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact</a>
+        </li>
+
+      </ul>
+
+      <!-- Right Icons -->
+      <div class="d-flex align-items-center gap-4">
+
+        <!-- Search -->
+        <button
+          type="button"
+          class="nav-icon border-0 bg-transparent p-0"
+          onclick="toggleSearch()"
+          aria-label="Open search"
+        >
+          <i class="bi bi-search"></i>
+        </button>
+
+        <!-- Cart -->
+        <a
+          href="cart.html"
+          class="nav-icon position-relative"
+          aria-label="View cart"
+        >
+          <i class="bi bi-cart3"></i>
+          <span id="cartCount" class="cart-badge">0</span>
+        </a>
+
+        <!-- Account Dropdown -->
+        <div class="dropdown">
+
+          <button
+            class="nav-icon border-0 bg-transparent p-0"
+            type="button"
+            id="accountDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-label="Account menu"
+          >
+            <i class="bi bi-person-circle"></i>
+          </button>
+
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="accountDropdown"
+            id="accountMenu"
+          >
+            <li>
+              <a class="dropdown-item" href="login.html">Login</a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="register.html">Register</a>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- =========================
+     NAVBAR END
+========================= -->
+
+
+<!-- =========================
+     SEARCH BAR
+========================= -->
+<div id="searchBar" class="search-bar">
+  <div class="container">
+
+    <div class="input-group">
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search services or products..."
+        aria-label="Search"
+      >
+
+      <button class="btn btn-gold" type="button">
+        <i class="bi bi-search"></i>
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!-- =========================
+     PAGE HERO
+========================= -->
+<section class="page-hero">
+  <div class="container" data-aos="fade-up">
+    <h1>My Orders</h1>
+    <!--Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mt-3">
+      <ol class="breadcrumb justify-content-center">
+        <li class="breadcrumb-item">
+          <a href="index.html">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          My Orders
+        </li>
+      </ol>
+    </nav>
+    <p
+      class="mt-3"
+      style="
+        color:#ccc;
+        font-family:'Poppins',sans-serif;
+        font-size:0.95rem;
+      "
+    >
+      View and track all your grooming product orders and purchases.
+    </p>
+  </div>
+</section>
+
+
+<!-- =========================
+     ORDERS SECTION
+========================= -->
+<section class="orders-section">
+  <div class="container">
+    <!-- Orders Container -->
+    <div id="ordersContainer"></div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+
+<footer>
+  <div class="container p-5">
+    <div class="row g-5">
+
+      <div class="col-lg-4">
+        <div class="footer-brand-name">Sharp Cuts Barber</div>
+        <p class="footer-bio">Premium grooming experience delivering precision haircuts, beard styling, and traditional barber excellence in the heart of Portsmouth.</p>
+        <div class="footer-social">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-twitter"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6">
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-6">
+        <div class="footer-col-title">Opening Hours</div>
+        <ul class="footer-hours">
+          <li><span>Monday</span><span>9am – 7pm</span></li>
+          <li><span>Tuesday</span><span>9am – 7pm</span></li>
+          <li><span>Wednesday</span><span>9am – 7pm</span></li>
+          <li><span>Thursday</span><span>9am – 8pm</span></li>
+          <li><span>Friday</span><span>9am – 8pm</span></li>
+          <li><span>Saturday</span><span>8am – 6pm</span></li>
+          <li><span>Sunday</span><span style="color:#e55;">Closed</span></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="footer-col-title">Find Us</div>
+        <div class="map-embed">
+          <iframe
+            src="https://www.google.com/maps?q=University+of+Portsmouth,+UK&output=embed"
+            width="100%" height="200"
+            style="border:0;display:block;"
+            allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Sharp Cuts Barber. All Rights Reserved.</p>
+      <p>Designed with <span style="color:var(--gold);">♥</span> in Portsmouth</p>
+    </div>
+  </div>
+</footer>
+<!-- FOOTER END -->
+
+<!-- AI Chat Widget -->
+<div id="aiChatWidget">
+    <div id="chatHeader">
+        <span>💬 Chat with us</span>
+        <button id="chatToggle">✕</button>
+    </div>
+    <div id="chatBody">
+        <div id="chatMessages">
+            <p class="bot-msg">Hi! Welcome to Sharp Cuts. How can I help you today?</p>
+        </div>
+        <div id="chatInput">
+            <input type="text" id="userMessage" placeholder="Type your message...">
+            <button id="sendMsg"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+<!-- AI Chat Widget END -->
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/account.js"></script>
+
+<script>
+  AOS.init();
+</script>
+
+<script>
+/* ═══════════════════════════════════════
+   LOAD USER ORDERS
+═══════════════════════════════════════ */
+async function loadOrders() {
+  const container = document.getElementById('ordersContainer');
+  const token = localStorage.getItem('token');
+
+  try {
+    const ordersRes = await fetch('/api/orders', {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
+
+    const ordersData = await ordersRes.json();
+
+    if (!ordersRes.ok || !ordersData.success) {
+      throw new Error(ordersData.message || 'Failed to load orders');
+    }
+
+    const orders = ordersData.data;
+
+    if (!Array.isArray(orders) || orders.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <h3 style="color: #fff;">No Orders Yet</h3>
+          <p>You haven't placed any orders yet.</p>
+          <a href="products.html" class="btn-shop">Start Shopping</a>
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+
+    for (const order of orders) {
+
+      const itemsRes = await fetch(`/api/orders/${order.order_id}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      const itemsData = await itemsRes.json();
+
+     
+      const items = Array.isArray(itemsData.data)
+        ? itemsData.data
+        : itemsData.data?.items
+        ? itemsData.data.items
+        : [];
+
+      html += `
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <div class="order-id">Order #${order.order_id}</div>
+              <div class="order-date">
+                ${new Date(order.created_at).toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric'
+                })}
+              </div>
+            </div>
+
+            <div>
+              <span class="status-badge status-${order.status}">
+                ${capitalize(order.status)}
+              </span>
+            </div>
+          </div>
+
+          <div class="order-items">
+            ${items.map(item => `
+              <div class="order-item">
+                <img src="${item.image_url || 'assets/img/no-image.png'}"
+                     alt="${item.product_name || item.name || 'Product'}"
+                     class="item-image">
+
+                <div class="item-details">
+                  <div class="item-name">
+                    ${item.product_name || item.name || 'Product'}
+                  </div>
+                  <div class="item-quantity">
+                    Quantity: ${item.quantity}
+                  </div>
+                </div>
+
+                <div class="item-price">
+                  £${(Number(item.price || 0) * Number(item.quantity || 0)).toFixed(2)}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center text-white">
+            <h5>Total: £${Number(order.total_amount).toFixed(2)}</h5>
+
+            ${order.status?.toLowerCase() === 'pending' ? `
+              <button class="btn btn-danger btn-sm"
+                onclick="cancelOrder(${order.order_id})">
+                Cancel Order
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    container.innerHTML = html;
+
+  } catch (err) {
+    console.error('Load orders error:', err);
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <h3 style="color: #fff;">Error Loading Orders</h3>
+        <p>${err.message || 'Failed to load your orders.'}</p>
+        <button class="btn-shop" onclick="location.reload()">Retry</button>
+      </div>
+    `;
+  }
+}
+
+
+/* =========================
+   CANCEL ORDER
+========================= */
+async function cancelOrder(orderId) {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Not logged in',
+      text: 'Please login first'
+    });
+    return;
+  }
+
+  try {
+    const result = await Swal.fire({
+      icon: 'warning',
+      title: 'Cancel Order?',
+      text: 'This action cannot be undone',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Cancel'
+    });
+
+    if (!result.isConfirmed) return;
+
+    const res = await fetch(`/api/orders/${orderId}/cancel`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message);
+    }
+
+    await Swal.fire({
+      icon: 'success',
+      title: 'Cancelled',
+      text: 'Your order has been cancelled'
+    });
+
+    loadOrders();
+
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: err.message
+    });
+  }
+}
+
+
+/* ═══════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════ */
+function capitalize(str) {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem('cart');
+  window.location.href = 'login.html';
+}
+
+
+/* INIT */
+loadOrders();
+</script>
+
+</body>
+</html>

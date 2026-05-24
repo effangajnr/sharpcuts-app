@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharp Cuts Barber | Best Barber Shop in Portsmouth</title>
+
+<meta name="description" content="Sharp Cuts Barber provides professional haircuts, beard trims, grooming services and products in Portsmouth.">
+
+<meta name="keywords" content="barber Portsmouth, haircut Portsmouth, beard trim, barber shop UK, grooming">
+
+<meta name="author" content="Sharp Cuts Barber">
+<meta name="robots" content="index, follow">
+
+<meta property="og:title" content="Sharp Cuts Barber">
+<meta property="og:description" content="Professional haircuts and grooming services in Portsmouth.">
+<meta property="og:image" content="assets/img/logo.png">
+<meta property="og:type" content="website">
+
+<link rel="canonical" href="https://www.sharpcutsbarber.com">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR START -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand" href="index.html">
+      <img src="assets/img/logo.png" alt="Sharp Cuts Logo" height="70">
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+
+      <!-- Center Links -->
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+
+        <div class="d-flex align-items-center gap-4">
+          <button type="button" class="nav-icon border-0 bg-transparent p-0" onclick="toggleSearch()" aria-label="Open search">
+            <i class="bi bi-search"></i>
+          </button>
+
+          <a href="cart.html" class="nav-icon position-relative" aria-label="View cart">
+            <i class="bi bi-cart3"></i>
+            <span id="cartCount" class="cart-badge">0</span>
+          </a>
+
+          <!-- ACCOUNT ICON DROPDOWN -->
+          <div class="dropdown">
+            <button
+              class="nav-icon border-0 bg-transparent p-0"
+              type="button"
+              id="accountDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              aria-label="Account menu"
+            >
+              <i class="bi bi-person-circle"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end" id="accountMenu">
+              <li><a class="dropdown-item" href="login.html">Login</a></li>
+              <li><a class="dropdown-item" href="register.html">Register</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+  </div>
+</nav>
+<!-- NAVBAR END -->
+
+<!-- SLIDE DOWN SEARCH BAR -->
+<div id="searchBar" class="search-bar">
+  <div class="container">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search services or products...">
+      <button class="btn btn-gold">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO SECTION START -->
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div data-aos="fade-up">
+    <h1>About Us</h1>
+
+    <nav aria-label="breadcrumb" class="mt-3">
+      <ol class="breadcrumb justify-content-center">
+        <li class="breadcrumb-item">
+          <a href="index.html">Home</a>
+        </li>
+        <li class="breadcrumb-item active">About</li>
+      </ol>
+    </nav>
+
+    <p class="mt-3" style="color:#ccc;font-family:'Poppins',sans-serif;font-size:0.95rem;">
+      Discover our story, passion, and commitment to excellence
+    </p>
+  </div>
+</section>
+<!-- HERO SECTION END -->
+
+
+<!-- ABOUT SECTION START -->
+<section class="py-5">
+  <div class="container p-5">
+    <div class="row align-items-center">
+
+      <!-- LEFT IMAGE -->
+      <div class="col-lg-5" data-aos="fade-right">
+        <div class="about-img-frame">
+          <img src="assets/img/about-barber.jpg" alt="About Sharp Cuts Barber">
+
+          <div class="about-year-badge">
+            <div class="year">2026</div>
+            <div class="year-label">Est. Portsmouth</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT CONTENT -->
+      <div class="col-lg-7">
+        <div class="p-3">
+
+          <span class="section-tag">Our Story</span>
+          <h2 class="section-heading text-dark">
+            Passion for<br>
+            <span class="text-gold">Grooming</span>
+          </h2>
+          <div class="gold-bar"></div>
+
+          <p class="mb-3" data-aos="fade-up" data-aos-delay="400">
+            At <span class="text-gold fw-bold">Sharp Cuts Barber</span>, we deliver precision haircuts and exceptional grooming services. Founded in 2026, our barbershop has quickly become a community favorite, celebrated for our team of highly skilled barbers and a warm, welcoming atmosphere. We combine traditional barbering techniques with modern styles to ensure every client walks out looking and feeling their best.
+          </p>
+
+          <p class="mb-4" data-aos="fade-up" data-aos-delay="400">
+            We believe a great haircut is more than just style – it's a full grooming experience. From the moment you walk in, we focus on your comfort, providing expert advice and personalized consultation to match your hair to your lifestyle, personality, and preferences. Whether it’s a classic trim, a contemporary cut, or a complete style transformation, our attention to detail ensures you leave confident and satisfied every time.
+          </p>
+
+          <p class="mb-4" data-aos="fade-up" data-aos-delay="400">
+            Beyond haircuts, we are committed to building lasting relationships with our clients. Our barbershop is a space for connection, conversation, and community, where every visit is more than a service – it’s a moment of care and style. We also prioritize using premium grooming products, so your hair, beard, and skin always receive the best treatment possible.
+          </p>
+
+          <!-- 🔥 MISSION / VISION / VALUES (NOW INSIDE RIGHT COLUMN) -->
+          <div class="row g-3 mt-4">
+
+            <!-- Mission -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+              <div class="card border-0 rounded-4 shadow-sm p-3 h-100 text-center">
+                <i class="fas fa-bullseye fa-2x text-gold mb-2"></i>
+                <h6 class="fw-bold text-gold">Mission</h6>
+                <p class="text-muted small mb-0">
+                  To provide exceptional grooming services and create a welcoming environment.
+                </p>
+              </div>
+            </div>
+
+            <!-- Vision -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+              <div class="card border-0 rounded-4 shadow-sm p-3 h-100 text-center">
+                <i class="fas fa-eye fa-2x text-gold mb-2"></i>
+                <h6 class="fw-bold text-gold">Vision</h6>
+                <p class="text-muted small mb-0">
+                  To be the leading barbershop known for excellence and service.
+                </p>
+              </div>
+            </div>
+
+            <!-- Values -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+              <div class="card border-0 rounded-4 shadow-sm p-3 h-100 text-center">
+                <i class="fas fa-heart fa-2x text-gold mb-2"></i>
+                <h6 class="fw-bold text-gold">Values</h6>
+                <p class="text-muted small mb-0">
+                  Integrity, Excellence, Customer Satisfaction, and Community.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ABOUT SECTION END -->
+
+
+<!-- WHY CHOOSE US -->
+<section id="why-card">
+  <div class="container p-5">
+
+    <!-- Header -->
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="section-heading text-white">Why Choose <span class="text-gold">Sharp Cuts</span></h2>
+      <div class="gold-bar centered"></div>
+      <p class="text-white w-75 mx-auto">
+        We combine traditional barbering expertise with modern grooming standards 
+        to deliver a premium experience tailored to every client.
+      </p>
+    </div>
+
+    <div class="row g-4 text-center">
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="why-card p-4 h-100">
+          <div class="icon-circle mb-4">
+            <i class="fas fa-cut"></i>
+          </div>
+          <h4 class="fw-bold mb-3">Master Craftsmanship</h4>
+          <p>
+            Our barbers are professionally trained with years of hands-on experience,
+            ensuring precision cuts and attention to detail every time.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="why-card p-4 h-100">
+          <div class="icon-circle mb-4">
+            <i class="fas fa-award"></i>
+          </div>
+          <h4 class="fw-bold mb-3">Premium Products</h4>
+          <p>
+            We use high-quality grooming products carefully selected 
+            to protect, nourish, and enhance your hair and skin.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="why-card p-4 h-100">
+          <div class="icon-circle mb-4">
+            <i class="fas fa-handshake"></i>
+          </div>
+          <h4 class="fw-bold mb-3">Client-Focused Service</h4>
+          <p>
+            From consultation to final styling, we prioritise comfort,
+            professionalism, and a personalised grooming experience.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- WHY CHOOSE US END -->
+
+<!-- TEAM -->
+<section class="team-section">
+  <div class="container p-5">
+
+    <!-- Header -->
+    <div class="text-center mb-5" data-aos="fade-up">
+        <span class="section-tag">Our Team</span>
+        <h2 class="section-heading text-dark">The Crew <span class="text-gold">Team</span></h2>
+        <div class="gold-bar centered"></div>
+    </div>
+
+    <div class="row g-4" id="barbersContainer" data-aos="fade-up" data-aos-delay="200"></div>
+
+  </div>
+</section>
+<!-- TEAM END -->
+
+<!-- FOOTER START -->
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+
+<footer>
+  <div class="container p-5">
+    <div class="row g-5">
+
+      <div class="col-lg-4">
+        <div class="footer-brand-name">Sharp Cuts Barber</div>
+        <p class="footer-bio">Premium grooming experience delivering precision haircuts, beard styling, and traditional barber excellence in the heart of Portsmouth.</p>
+        <div class="footer-social">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-twitter"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6">
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-6">
+        <div class="footer-col-title">Opening Hours</div>
+        <ul class="footer-hours">
+          <li><span>Monday</span><span>9am – 7pm</span></li>
+          <li><span>Tuesday</span><span>9am – 7pm</span></li>
+          <li><span>Wednesday</span><span>9am – 7pm</span></li>
+          <li><span>Thursday</span><span>9am – 8pm</span></li>
+          <li><span>Friday</span><span>9am – 8pm</span></li>
+          <li><span>Saturday</span><span>8am – 6pm</span></li>
+          <li><span>Sunday</span><span style="color:#e55;">Closed</span></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="footer-col-title">Find Us</div>
+        <div class="map-embed">
+          <iframe
+            src="https://www.google.com/maps?q=University+of+Portsmouth,+UK&output=embed"
+            width="100%" height="200"
+            style="border:0;display:block;"
+            allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Sharp Cuts Barber. All Rights Reserved.</p>
+      <p>Designed with <span style="color:var(--gold);">♥</span> in Portsmouth</p>
+    </div>
+  </div>
+</footer>
+<!-- FOOTER END -->
+
+<!-- AI Chat Widget -->
+<div id="aiChatWidget">
+    <div id="chatHeader">
+        <span>💬 Chat with us</span>
+        <button id="chatToggle">✕</button>
+    </div>
+    <div id="chatBody">
+        <div id="chatMessages">
+            <p class="bot-msg">Hi! Welcome to Sharp Cuts. How can I help you today?</p>
+        </div>
+        <div id="chatInput">
+            <input type="text" id="userMessage" placeholder="Type your message...">
+            <button id="sendMsg"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+<!-- AI Chat Widget END -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/products.js"></script>
+<script src="assets/js/barbers.js"></script>
+<script src="assets/js/prices.js"></script>
+<script src="assets/js/services.js"></script>
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/account.js"></script>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+
+
+</body>
+</html>

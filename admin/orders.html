@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharp Cuts — Orders</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+  <!-- Admin CSS -->
+  <link rel="stylesheet" href="/admin/assets/css/admin.css">
+
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- AUTH GUARD -->
+  <script>
+    try {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user") || "null");
+
+      if (!token || !user || user.role !== "admin") {
+        window.location.href = "/admin/login.html";
+      }
+    } catch {
+      window.location.href = "/admin/login.html";
+    }
+  </script>
+</head>
+
+<body>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="bi bi-scissors"></i></div>
+    <div>
+      <div class="brand-name">Sharp Cuts</div>
+      <div class="brand-sub">Admin Panel</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="/admin/index.html" class="nav-item">Dashboard</a>
+    <a href="/admin/bookings.html" class="nav-item">Bookings</a>
+    <a href="/admin/orders.html" class="nav-item active">Orders</a>
+    <a href="/admin/barbers.html" class="nav-item">Barbers</a>
+    <a href="/admin/services.html" class="nav-item">Services</a>
+    <a href="/admin/service-categories.html" class="nav-item">Service Categories</a>
+    <a href="/admin/products.html" class="nav-item">Products</a>
+    <a href="/admin/testimonials.html" class="nav-item">Testimonials</a>
+    <a href="/admin/users.html" class="nav-item">Users</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="admin-avatar"><i class="bi bi-person-fill"></i></div>
+
+    <div class="admin-info">
+      <div class="admin-name" id="adminName"></div>
+      <div class="admin-email" id="adminEmail"></div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">
+      <i class="bi bi-box-arrow-right"></i>
+    </button>
+  </div>
+</aside>
+
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <span class="topbar-title">Orders Management</span>
+</header>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Customer Orders</h3>
+  </div>
+
+  <table id="ordersTable" class="display table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="ordersBody">
+      <!-- Loaded via JS -->
+    </tbody>
+  </table>
+
+</div>
+
+<!-- ORDER DETAILS MODAL -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Order Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Customer Info -->
+        <div class="mb-4">
+          <h6 class="fw-bold">Customer Information</h6>
+          <p class="mb-1"><strong>Name:</strong> <span id="modalCustomerName"></span></p>
+          <p class="mb-1"><strong>Email:</strong> <span id="modalCustomerEmail"></span></p>
+          <p class="mb-1"><strong>Phone:</strong> <span id="modalCustomerPhone"></span></p>
+        </div>
+
+        <!-- Order Info -->
+        <div class="mb-4">
+          <h6 class="fw-bold">Order Information</h6>
+          <p class="mb-1"><strong>Order ID:</strong> <span id="modalOrderId"></span></p>
+          <p class="mb-1"><strong>Date:</strong> <span id="modalOrderDate"></span></p>
+          <p class="mb-1"><strong>Status:</strong> <span id="modalOrderStatus"></span></p>
+          <p class="mb-1"><strong>Total:</strong> £<span id="modalOrderTotal"></span></p>
+        </div>
+
+        <!-- Order Items -->
+        <h6 class="fw-bold">Items</h6>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="modalOrderItems">
+              <!-- Loaded via JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+let table;
+let orderModal;
+
+window.addEventListener('DOMContentLoaded', () => {
+  orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  document.getElementById("adminName").textContent =
+    (user.first_name || "") + " " + (user.last_name || "");
+
+  document.getElementById("adminEmail").textContent =
+    user.email || "";
+
+  loadOrders();
+});
+
+
+/* ───────── LOAD ORDERS ───────── */
+async function loadOrders() {
+  try {
+    const res = await fetch("/api/orders/admin/all", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Failed to load orders");
+    }
+
+    const body = document.getElementById("ordersBody");
+    body.innerHTML = "";
+
+    if (!data.data || data.data.length === 0) {
+      body.innerHTML = `
+        <tr>
+          <td colspan="8" class="text-center text-muted py-4">
+            No orders found
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    data.data.forEach(order => {
+      body.innerHTML += `
+        <tr>
+          <td>${order.order_id}</td>
+          <td>${order.customer_name || "N/A"}</td>
+          <td>${order.customer_email || "N/A"}</td>
+          <td>${order.item_count || 0}</td>
+          <td>£${Number(order.total_amount).toFixed(2)}</td>
+          <td>
+            <span class="badge bg-${getStatusColor(order.status)}">
+              ${capitalize(order.status)}
+            </span>
+          </td>
+          <td>${new Date(order.created_at).toLocaleDateString()}</td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-sm btn-dark dropdown-toggle" data-bs-toggle="dropdown">
+                Actions
+              </button>
+
+              <ul class="dropdown-menu dropdown-menu-end">
+
+                <li>
+                  <a class="dropdown-item" href="#"
+                    onclick="viewOrderDetails(${order.order_id}); return false;">
+                    View Details
+                  </a>
+                </li>
+
+                ${
+                  order.status === "pending"
+                    ? `<li>
+                        <a class="dropdown-item"
+                          href="#"
+                          onclick="updateStatus(${order.order_id}, 'confirmed'); return false;">
+                          Confirm Order
+                        </a>
+                      </li>`
+                    : ""
+                }
+
+                ${
+                  order.status === "confirmed"
+                    ? `<li>
+                        <a class="dropdown-item"
+                          href="#"
+                          onclick="updateStatus(${order.order_id}, 'completed'); return false;">
+                          Complete Order
+                        </a>
+                      </li>`
+                    : ""
+                }
+
+                ${
+                  order.status !== "cancelled" && order.status !== "completed"
+                    ? `<li>
+                        <a class="dropdown-item text-warning"
+                          href="#"
+                          onclick="updateStatus(${order.order_id}, 'cancelled'); return false;">
+                          Cancel Order
+                        </a>
+                      </li>`
+                    : ""
+                }
+
+              </ul>
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+
+    if (table) table.destroy();
+
+    table = $("#ordersTable").DataTable({
+      order: [[0, "asc"]],
+      pageLength: 25
+    });
+
+  } catch (err) {
+    console.error("Load orders error:", err);
+
+    Swal.fire({
+      icon: "error",
+      title: "Error Loading Orders",
+      text: err.message
+    });
+  }
+}
+
+
+/* ───────── VIEW ORDER DETAILS ───────── */
+async function viewOrderDetails(orderId) {
+  try {
+    Swal.fire({
+      title: "Loading...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading()
+    });
+
+    const res = await fetch(`/api/orders/admin/${orderId}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Failed to load order");
+    }
+
+    Swal.close();
+
+    const { order, items } = data.data;
+
+    document.getElementById("modalCustomerName").textContent = order.customer_name || "N/A";
+    document.getElementById("modalCustomerEmail").textContent = order.customer_email || "N/A";
+    document.getElementById("modalCustomerPhone").textContent = order.customer_phone || "N/A";
+
+    document.getElementById("modalOrderId").textContent = order.order_id;
+    document.getElementById("modalOrderDate").textContent =
+      new Date(order.created_at).toLocaleString();
+
+    document.getElementById("modalOrderStatus").innerHTML =
+      `<span class="badge bg-${getStatusColor(order.status)}">
+        ${capitalize(order.status)}
+      </span>`;
+
+    document.getElementById("modalOrderTotal").textContent =
+      Number(order.total_amount).toFixed(2);
+
+    const itemsBody = document.getElementById("modalOrderItems");
+    itemsBody.innerHTML = "";
+
+    items.forEach(item => {
+      const subtotal = item.price * item.quantity;
+
+      itemsBody.innerHTML += `
+        <tr>
+          <td>${item.product_name}</td>
+          <td>£${Number(item.price).toFixed(2)}</td>
+          <td>${item.quantity}</td>
+          <td>£${subtotal.toFixed(2)}</td>
+        </tr>
+      `;
+    });
+
+    orderModal.show();
+
+  } catch (err) {
+    console.error(err);
+
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: err.message
+    });
+  }
+}
+
+
+/* ───────── UPDATE ORDER STATUS (FIXED ENDPOINT) ───────── */
+async function updateStatus(orderId, status) {
+  try {
+    const confirm = await Swal.fire({
+      icon: "question",
+      title: "Confirm Action",
+      text: `Change status to ${status}?`,
+      showCancelButton: true
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    Swal.fire({
+      title: "Updating...",
+      didOpen: () => Swal.showLoading()
+    });
+
+    const res = await fetch(`/api/orders/admin/${orderId}/status`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token")
+      },
+      body: JSON.stringify({ status })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Update failed");
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Updated",
+      text: `Order marked as ${status}`,
+      timer: 1500,
+      showConfirmButton: false
+    });
+
+    loadOrders();
+
+  } catch (err) {
+    console.error(err);
+
+    Swal.fire({
+      icon: "error",
+      title: "Update Failed",
+      text: err.message
+    });
+  }
+}
+
+
+/* ───────── HELPERS ───────── */
+function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function getStatusColor(status) {
+  switch (status) {
+    case "pending": return "warning";
+    case "confirmed": return "primary";
+    case "completed": return "success";
+    case "cancelled": return "danger";
+    default: return "secondary";
+  }
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  window.location.href = "/admin/login.html";
+}
+</script>
+
+</body>
+</html>

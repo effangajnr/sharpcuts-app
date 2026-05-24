@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharp Cuts Barber | Best Barber Shop in Portsmouth</title>
+
+<meta name="description" content="Sharp Cuts Barber provides professional haircuts, beard trims, grooming services and products in Portsmouth.">
+
+<meta name="keywords" content="barber Portsmouth, haircut Portsmouth, beard trim, barber shop UK, grooming">
+
+<meta name="author" content="Sharp Cuts Barber">
+<meta name="robots" content="index, follow">
+
+<meta property="og:title" content="Sharp Cuts Barber">
+<meta property="og:description" content="Professional haircuts and grooming services in Portsmouth.">
+<meta property="og:image" content="assets/img/logo.png">
+<meta property="og:type" content="website">
+
+<link rel="canonical" href="https://www.sharpcutsbarber.com">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR START -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand" href="index.html">
+      <img src="assets/img/logo.png" alt="Sharp Cuts Logo" height="70">
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+
+      <!-- Center Links -->
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+
+        <div class="d-flex align-items-center gap-4">
+          <button type="button" class="nav-icon border-0 bg-transparent p-0" onclick="toggleSearch()" aria-label="Open search">
+            <i class="bi bi-search"></i>
+          </button>
+
+          <a href="cart.html" class="nav-icon position-relative" aria-label="View cart">
+            <i class="bi bi-cart3"></i>
+            <span id="cartCount" class="cart-badge">0</span>
+          </a>
+
+          <!-- ACCOUNT ICON DROPDOWN -->
+          <div class="dropdown">
+            <button
+              class="nav-icon border-0 bg-transparent p-0"
+              type="button"
+              id="accountDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              aria-label="Account menu"
+            >
+              <i class="bi bi-person-circle"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end" id="accountMenu">
+              <li><a class="dropdown-item" href="login.html">Login</a></li>
+              <li><a class="dropdown-item" href="register.html">Register</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+  </div>
+</nav>
+<!-- NAVBAR END -->
+
+<!-- SLIDE DOWN SEARCH BAR -->
+<div id="searchBar" class="search-bar">
+  <div class="container">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search services or products...">
+      <button class="btn btn-gold">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO SECTION START -->
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div data-aos="fade-up">
+    <h1>My Appointment</h1>
+
+    <nav aria-label="breadcrumb" class="mt-3">
+      <ol class="breadcrumb justify-content-center">
+        <li class="breadcrumb-item">
+          <a href="index.html">Home</a>
+        </li>
+        <li class="breadcrumb-item active">My Appointment</li>
+      </ol>
+    </nav>
+
+    <p class="mt-3" style="color:#ccc;font-family:'Poppins',sans-serif;font-size:0.95rem;">
+        View and manage your upcoming appointments. You can cancel or reschedule any booking from here.
+    </p>
+  </div>
+</section>
+<!-- HERO SECTION END -->
+
+
+
+<!-- BOOKINGS -->
+<section class="bookings-section">
+  <div class="container">
+
+    <div id="bookingsContainer">
+
+      <!-- BOOKINGS LOAD HERE -->
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+
+<footer>
+  <div class="container p-5">
+    <div class="row g-5">
+
+      <div class="col-lg-4">
+        <div class="footer-brand-name">Sharp Cuts Barber</div>
+        <p class="footer-bio">Premium grooming experience delivering precision haircuts, beard styling, and traditional barber excellence in the heart of Portsmouth.</p>
+        <div class="footer-social">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-twitter"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6">
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-6">
+        <div class="footer-col-title">Opening Hours</div>
+        <ul class="footer-hours">
+          <li><span>Monday</span><span>9am – 7pm</span></li>
+          <li><span>Tuesday</span><span>9am – 7pm</span></li>
+          <li><span>Wednesday</span><span>9am – 7pm</span></li>
+          <li><span>Thursday</span><span>9am – 8pm</span></li>
+          <li><span>Friday</span><span>9am – 8pm</span></li>
+          <li><span>Saturday</span><span>8am – 6pm</span></li>
+          <li><span>Sunday</span><span style="color:#e55;">Closed</span></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="footer-col-title">Find Us</div>
+        <div class="map-embed">
+          <iframe
+            src="https://www.google.com/maps?q=University+of+Portsmouth,+UK&output=embed"
+            width="100%" height="200"
+            style="border:0;display:block;"
+            allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Sharp Cuts Barber. All Rights Reserved.</p>
+      <p>Designed with <span style="color:var(--gold);">♥</span> in Portsmouth</p>
+    </div>
+  </div>
+</footer>
+<!-- FOOTER END -->
+
+<!-- AI Chat Widget -->
+<div id="aiChatWidget">
+    <div id="chatHeader">
+        <span>💬 Chat with us</span>
+        <button id="chatToggle">✕</button>
+    </div>
+    <div id="chatBody">
+        <div id="chatMessages">
+            <p class="bot-msg">Hi! Welcome to Sharp Cuts. How can I help you today?</p>
+        </div>
+        <div id="chatInput">
+            <input type="text" id="userMessage" placeholder="Type your message...">
+            <button id="sendMsg"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+<!-- AI Chat Widget END -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script src="assets/js/booking.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/products.js"></script>
+<script src="assets/js/prices.js"></script>
+<script src="assets/js/services.js"></script>
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/account.js"></script>
+
+<script>
+  AOS.init();
+</script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  loadBookings();
+
+});
+
+
+/* =========================
+   LOAD BOOKINGS
+========================= */
+async function loadBookings() {
+
+  const container = document.getElementById("bookingsContainer");
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+
+    Swal.fire({
+      icon: "warning",
+      title: "Login Required",
+      text: "Please login first"
+    }).then(() => {
+      window.location.href = "login.html";
+    });
+
+    return;
+  }
+
+  try {
+
+    container.innerHTML = `
+      <div class="text-center py-5">
+        <div class="spinner-border text-warning"></div>
+      </div>
+    `;
+
+    const res = await fetch("/api/bookings/my", {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Failed to load bookings");
+    }
+
+    if (!data.data.length) {
+
+      container.innerHTML = `
+        <div class="empty-box">
+
+          <i class="bi bi-calendar-x" style="font-size:4rem;color:#d4af37;"></i>
+
+          <h3 class="mt-4">No Bookings Yet</h3>
+
+          <p class="text-light mt-3">
+            You haven't booked any appointments yet.
+          </p>
+
+          <a href="booking.html" class="gold-btn mt-3 d-inline-block">
+            Book Appointment
+          </a>
+
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = "";
+
+    data.data.forEach(b => {
+
+      container.innerHTML += `
+
+        <div class="booking-card">
+
+          <div class="booking-top">
+
+            <div class="booking-id">
+              Booking #${b.booking_id}
+            </div>
+
+            <div class="booking-status status-${b.status}">
+              ${capitalize(b.status)}
+            </div>
+
+          </div>
+
+          <div class="booking-details">
+
+            <div class="detail-box">
+              <div class="detail-title">Service</div>
+              <div class="detail-value">
+                ${b.service_name}
+              </div>
+            </div>
+
+            <div class="detail-box">
+              <div class="detail-title">Date</div>
+              <div class="detail-value">
+                ${formatDate(b.booking_date)}
+              </div>
+            </div>
+
+            <div class="detail-box">
+              <div class="detail-title">Time</div>
+              <div class="detail-value">
+                ${formatTime(b.booking_time)}
+              </div>
+            </div>
+
+            <div class="detail-box">
+              <div class="detail-title">Location</div>
+              <div class="detail-value">
+                ${
+                  b.location_type === "home_service"
+                  ? "Home Service"
+                  : "In-Salon"
+                }
+              </div>
+            </div>
+
+          </div>
+
+          ${
+            b.location_type === "home_service"
+            ? `
+              <div class="detail-box mt-3">
+                <div class="detail-title">Address</div>
+                <div class="detail-value">
+                  ${b.service_address || "-"}
+                </div>
+              </div>
+            `
+            : ""
+          }
+
+          ${
+            b.status !== "cancelled" &&
+            b.status !== "completed"
+            ? `
+              <button
+                class="btn btn-danger cancel-btn"
+                onclick="cancelBooking(${b.booking_id})"
+              >
+                Cancel Booking
+              </button>
+            `
+            : ""
+          }
+
+        </div>
+
+      `;
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    container.innerHTML = `
+      <div class="alert alert-danger">
+        ${err.message}
+      </div>
+    `;
+  }
+}
+
+
+/* =========================
+   CANCEL BOOKING
+========================= */
+async function cancelBooking(id) {
+
+  const token = localStorage.getItem("token");
+
+  const confirm = await Swal.fire({
+    title: "Cancel Booking?",
+    text: "Are you sure you want to cancel this booking?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33"
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  try {
+
+    Swal.fire({
+      title: "Cancelling...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading()
+    });
+
+    const res = await fetch(`/api/bookings/cancel/${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Failed to cancel booking");
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Booking Cancelled"
+    });
+
+    loadBookings();
+
+  } catch (err) {
+
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: err.message
+    });
+  }
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function capitalize(str) {
+
+  if (!str) return "";
+
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function formatDate(date) {
+
+  return new Date(date).toLocaleDateString();
+}
+
+function formatTime(time) {
+
+  if (!time) return "-";
+
+  return time.slice(0,5);
+}
+
+</script>
+
+</body>
+</html>

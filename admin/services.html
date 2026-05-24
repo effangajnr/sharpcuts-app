@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharp Cuts — Services</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+  <!-- Admin CSS -->
+  <link rel="stylesheet" href="/admin/assets/css/admin.css">
+
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Auth check -->
+  <script>
+    try {
+      const token = localStorage.getItem("token");
+      const user  = JSON.parse(localStorage.getItem("user") || "null");
+
+      if (!token || !user || user.role !== "admin") {
+        window.location.href = "/admin/login.html";
+      }
+    } catch {
+      window.location.href = "/admin/login.html";
+    }
+  </script>
+</head>
+
+<body>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="bi bi-scissors"></i></div>
+    <div>
+      <div class="brand-name">Sharp Cuts</div>
+      <div class="brand-sub">Admin Panel</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="/admin/index.html" class="nav-item">Dashboard</a>
+    <a href="/admin/bookings.html" class="nav-item">Bookings</a>
+    <a href="/admin/orders.html" class="nav-item">Orders</a>
+    <a href="/admin/barbers.html" class="nav-item">Barbers</a>
+    <a href="/admin/services.html" class="nav-item active">Services</a>
+    <a href="/admin/service-categories.html" class="nav-item">Service Categories</a>
+    <a href="/admin/products.html" class="nav-item">Products</a>
+    <a href="/admin/testimonials.html" class="nav-item">Testimonials</a>
+    <a href="/admin/users.html" class="nav-item">Users</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="admin-avatar"><i class="bi bi-person-fill"></i></div>
+
+    <div class="admin-info">
+      <div class="admin-name" id="adminName"></div>
+      <div class="admin-email" id="adminEmail"></div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">
+      <i class="bi bi-box-arrow-right"></i>
+    </button>
+  </div>
+</aside>
+
+
+<!-- MAIN -->
+<div class="main">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Services</h3>
+    <button class="btn btn-warning" onclick="openModal()">+ Add Service</button>
+  </div>
+
+  <table id="servicesTable" class="display table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Category</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price (£)</th>
+        <th>Duration</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="servicesBody"></tbody>
+  </table>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="serviceModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Add Service</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Category -->
+        <div class="mb-3">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="fCategory"></select>
+        </div>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label class="form-label">Service Name</label>
+          <input class="form-control" id="fName">
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" id="fDescription"></textarea>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-3">
+          <label class="form-label">Price (£)</label>
+          <input type="number" class="form-control" id="fPrice">
+        </div>
+
+        <!-- Duration -->
+        <div class="mb-3">
+          <label class="form-label">Duration</label>
+          <input type="number" class="form-control" id="fDuration">
+        </div>
+
+        <!-- Status -->
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="fActive">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-warning" onclick="saveService()">Save</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+let editId = null;
+let services = [];
+let categories = [];
+
+const modal = new bootstrap.Modal(document.getElementById('serviceModal'));
+
+function getToken() {
+  return localStorage.getItem("token");
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = "/admin/login.html";
+}
+
+// Optional: fill admin info safely
+const user = JSON.parse(localStorage.getItem("user") || "null");
+
+if (user) {
+  document.getElementById("adminName").innerText =
+    user.first_name ? `${user.first_name} ${user.last_name}` : "Admin";
+
+  document.getElementById("adminEmail").innerText =
+    user.email || "";
+}
+
+/* ───────── LOAD CATEGORIES ───────── */
+async function loadCategories() {
+  const res = await fetch("/api/service-categories");
+  const data = await res.json();
+
+  categories = data.data;
+
+  fCategory.innerHTML = categories.map(c =>
+    `<option value="${c.category_id}">${c.name}</option>`
+  ).join("");
+}
+
+/* ───────── LOAD SERVICES ───────── */
+async function loadServices() {
+  const res = await fetch("/api/services", {
+    headers: { Authorization: "Bearer " + getToken() }
+  });
+
+  const data = await res.json();
+  services = data.data;
+
+  document.getElementById("servicesBody").innerHTML = services.map((s, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${s.category_name || "-"}</td>
+      <td>${s.name}</td>
+      <td>${s.description || "-"}</td>
+      <td>£${s.price}</td>
+      <td>${s.duration_minutes}</td>
+      <td>
+        <span class="badge ${s.is_active ? 'bg-success' : 'bg-secondary'}">
+          ${s.is_active ? 'Active' : 'Inactive'}
+        </span>
+      </td>
+      <td>
+        <button class="btn btn-sm btn-outline-secondary" onclick="openModal(${s.service_id})">
+          <i class="bi bi-pencil"></i>
+        </button>
+        <button class="btn btn-sm btn-danger" onclick="deleteService(${s.service_id})">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    </tr>
+  `).join("");
+
+  if ($.fn.DataTable.isDataTable('#servicesTable')) {
+    $('#servicesTable').DataTable().destroy();
+  }
+
+  $('#servicesTable').DataTable();
+}
+
+/* ───────── OPEN MODAL ───────── */
+function openModal(id = null) {
+  editId = id;
+  resetForm();
+
+  if (id) {
+    const s = services.find(x => x.service_id === id);
+
+    fCategory.value = s.category_id;
+    fName.value = s.name;
+    fDescription.value = s.description;
+    fPrice.value = s.price;
+    fDuration.value = s.duration_minutes;
+    fActive.value = s.is_active ? "true" : "false";
+
+    modal._element.querySelector(".modal-title").innerText = "Edit Service";
+  } else {
+    modal._element.querySelector(".modal-title").innerText = "Add Service";
+  }
+
+  modal.show();
+}
+
+/* ───────── RESET ───────── */
+function resetForm() {
+  fCategory.value = "";
+  fName.value = "";
+  fDescription.value = "";
+  fPrice.value = "";
+  fDuration.value = "";
+  fActive.value = "true";
+}
+
+/* ───────── SAVE ───────── */
+async function saveService() {
+
+  const body = {
+    category_id: parseInt(fCategory.value),
+    name: fName.value.trim(),
+    description: fDescription.value.trim(),
+    price: parseFloat(fPrice.value),
+    duration_minutes: parseInt(fDuration.value),
+    is_active: fActive.value === "true"
+  };
+
+  if (!body.name || !body.price || isNaN(body.price)) {
+    Swal.fire("Warning", "Name and valid price required", "warning");
+    return;
+  }
+
+  const url = editId ? `/api/services/${editId}` : "/api/services";
+  const method = editId ? "PUT" : "POST";
+
+  const res = await fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getToken()
+    },
+    body: JSON.stringify(body)
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || !data.success) {
+    Swal.fire("Error", data.message, "error");
+    return;
+  }
+
+  modal.hide();
+  loadServices();
+
+  Swal.fire("Success", editId ? "Updated" : "Created", "success");
+}
+
+/* ───────── DELETE ───────── */
+async function deleteService(id) {
+
+  const confirm = await Swal.fire({
+    title: "Delete?",
+    icon: "warning",
+    showCancelButton: true
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  const res = await fetch(`/api/services/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: "Bearer " + getToken() }
+  });
+
+  const data = await res.json();
+
+  if (!data.success) {
+    Swal.fire("Error", data.message, "error");
+    return;
+  }
+
+  loadServices();
+  Swal.fire("Deleted", "", "success");
+}
+
+/* INIT */
+loadCategories();
+loadServices();
+
+</script>
+
+</body>
+</html>

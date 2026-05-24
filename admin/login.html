@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharp Cuts — Admin Login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/assets/css/admin.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body class="login-body">
+
+  <div class="login-box">
+
+    <div class="login-brand">
+      <div class="brand-icon"><i class="bi bi-scissors"></i></div>
+      <div>
+        <div class="brand-name">Sharp Cuts</div>
+        <div class="brand-sub">Admin Panel</div>
+      </div>
+    </div>
+
+    <h2 class="login-title">Welcome Back</h2>
+    <p class="login-sub">Sign in to manage your barbershop</p>
+
+    <!-- FORM (IMPORTANT FIX) -->
+    <form id="loginForm">
+
+      <div class="field">
+        <label>Email Address</label>
+        <div class="input-wrap">
+          <i class="bi bi-envelope-fill input-icon"></i>
+          <input type="email" id="email" placeholder="admin@barber.com" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <div class="input-wrap">
+          <i class="bi bi-lock-fill input-icon"></i>
+          <input type="password" id="password" placeholder="••••••••" required>
+
+          <button class="eye-btn" type="button" id="eyeBtn">
+            <i class="bi bi-eye-fill" id="eyeIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn" id="loginBtn">
+        <i class="bi bi-box-arrow-in-right"></i> Sign In
+      </button>
+
+    </form>
+
+    <div class="demo-credentials">
+    <p>
+      <strong>Demo Admin Login</strong><br>
+      Email: admin@barbershop.com<br>
+      Password: admin123
+    </p>
+  </div>
+
+  </div>
+
+<script>
+const form = document.getElementById('loginForm');
+const btn = document.getElementById('loginBtn');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    return Swal.fire('Missing fields', 'Please enter email and password', 'warning');
+  }
+
+  try {
+    btn.disabled = true;
+    btn.innerHTML = "Signing in...";
+
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      return Swal.fire('Login failed', data.message || 'Invalid credentials', 'error');
+    }
+
+    if (data.user.role !== 'admin') {
+      return Swal.fire('Access denied', 'Admin only area', 'error');
+    }
+
+    // save session
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    await Swal.fire('Success', 'Login successful', 'success');
+
+    window.location.href = '/admin/index.html';
+
+  } catch (err) {
+    console.error(err);
+    Swal.fire('Error', 'Server not reachable', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> Sign In';
+  }
+});
+
+
+// Password toggle (FIXED)
+document.getElementById('eyeBtn').addEventListener('click', () => {
+  const input = document.getElementById('password');
+  const icon = document.getElementById('eyeIcon');
+
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'bi bi-eye-slash-fill';
+  } else {
+    input.type = 'password';
+    icon.className = 'bi bi-eye-fill';
+  }
+});
+</script>
+
+</body>
+</html>

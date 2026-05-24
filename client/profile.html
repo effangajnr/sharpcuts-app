@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharp Cuts Barber | Best Barber Shop in Portsmouth</title>
+
+<meta name="description" content="Sharp Cuts Barber provides professional haircuts, beard trims, grooming services and products in Portsmouth.">
+
+<meta name="keywords" content="barber Portsmouth, haircut Portsmouth, beard trim, barber shop UK, grooming">
+
+<meta name="author" content="Sharp Cuts Barber">
+<meta name="robots" content="index, follow">
+
+<meta property="og:title" content="Sharp Cuts Barber">
+<meta property="og:description" content="Professional haircuts and grooming services in Portsmouth.">
+<meta property="og:image" content="assets/img/logo.png">
+<meta property="og:type" content="website">
+
+<link rel="canonical" href="https://www.sharpcutsbarber.com">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR START -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand" href="index.html">
+      <img src="assets/img/logo.png" alt="Sharp Cuts Logo" height="70">
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+
+      <!-- Center Links -->
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+
+        <div class="d-flex align-items-center gap-4">
+          <button type="button" class="nav-icon border-0 bg-transparent p-0" onclick="toggleSearch()" aria-label="Open search">
+            <i class="bi bi-search"></i>
+          </button>
+
+          <a href="cart.html" class="nav-icon position-relative" aria-label="View cart">
+            <i class="bi bi-cart3"></i>
+            <span id="cartCount" class="cart-badge">0</span>
+          </a>
+
+          <!-- ACCOUNT ICON DROPDOWN -->
+          <div class="dropdown">
+            <button
+              class="nav-icon border-0 bg-transparent p-0"
+              type="button"
+              id="accountDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              aria-label="Account menu"
+            >
+              <i class="bi bi-person-circle"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end" id="accountMenu">
+              <li><a class="dropdown-item" href="login.html">Login</a></li>
+              <li><a class="dropdown-item" href="register.html">Register</a></li>
+            </ul>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</nav>
+<!-- NAVBAR END -->
+
+<!-- SLIDE DOWN SEARCH BAR -->
+<div id="searchBar" class="search-bar">
+  <div class="container">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search services or products...">
+      <button class="btn btn-gold">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- HERO SECTION START -->
+<!-- PAGE HERO -->
+<section class="profile-hero">
+  <div class="container" data-aos="fade-up">
+    <h1>My Profile</h1>
+    <nav aria-label="breadcrumb" class="mt-2">
+      <ol class="breadcrumb justify-content-center mb-2">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Profile</li>
+      </ol>
+    </nav>
+    <p class="mb-0" style="color:#ccc; font-family:'Poppins',sans-serif; font-size:0.95rem;">
+      Manage your account details and security settings
+    </p>
+  </div>
+</section>
+<!-- HERO SECTION END -->
+
+  <section class="profile-section">
+    <div class="profile-shell">
+      <div class="row g-4">
+        
+        <div class="col-lg-4">
+          <div class="profile-sidebar">
+            <div class="profile-avatar">
+              <i class="bi bi-person-fill"></i>
+            </div>
+
+            <div class="profile-user-name" id="sidebarName">Loading...</div>
+            <div class="profile-user-email" id="sidebarEmail">Please wait...</div>
+
+            <div class="profile-mini-stat">
+              <small>Phone</small>
+              <span id="sidebarPhone">-</span>
+            </div>
+
+            <div class="profile-mini-stat">
+              <small>Role</small>
+              <span id="sidebarRole">-</span>
+            </div>
+
+            <div class="profile-mini-stat">
+              <small>Status</small>
+              <span>Active Account</span>
+            </div>
+
+            <div class="nav flex-column profile-nav nav-pills" id="profileTabs" role="tablist" aria-orientation="vertical">
+              <button class="nav-link active" id="tab-overview-btn" data-bs-toggle="pill" data-bs-target="#tab-overview" type="button" role="tab">
+                <i class="bi bi-person-circle"></i> Profile Overview
+              </button>
+
+            </div>
+
+            <div class="d-grid mt-4">
+              <button class="btn btn-outline-light btn-logout" id="logoutBtn">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="profile-content">
+            <div class="tab-content">
+
+              <!-- Overview Tab -->
+              <div class="tab-pane fade show active" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview-btn">
+                <div class="section-kicker">Account</div>
+                <h2 class="content-title">Profile Overview</h2>
+                <p class="content-subtitle">Review your saved account details and manage your profile access.</p>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <div class="info-label">First Name</div>
+                      <div class="info-value" id="profileFirstName">-</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <div class="info-label">Last Name</div>
+                      <div class="info-value" id="profileLastName">-</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <div class="info-label">Email Address</div>
+                      <div class="info-value" id="profileEmail">-</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <div class="info-label">Phone Number</div>
+                      <div class="info-value" id="profilePhone">-</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <div class="info-label">Role</div>
+                      <div class="info-value text-capitalize" id="profileRole">-</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <div class="info-label">Quick Action</div>
+                      <div class="info-value">
+                        <a href="booking.html" class="btn btn-gold mt-2">Book Appointment</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER START -->
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+
+<footer>
+  <div class="container p-5">
+    <div class="row g-5">
+
+      <div class="col-lg-4">
+        <div class="footer-brand-name">Sharp Cuts Barber</div>
+        <p class="footer-bio">Premium grooming experience delivering precision haircuts, beard styling, and traditional barber excellence in the heart of Portsmouth.</p>
+        <div class="footer-social">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-twitter"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6">
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-6">
+        <div class="footer-col-title">Opening Hours</div>
+        <ul class="footer-hours">
+          <li><span>Monday</span><span>9am – 7pm</span></li>
+          <li><span>Tuesday</span><span>9am – 7pm</span></li>
+          <li><span>Wednesday</span><span>9am – 7pm</span></li>
+          <li><span>Thursday</span><span>9am – 8pm</span></li>
+          <li><span>Friday</span><span>9am – 8pm</span></li>
+          <li><span>Saturday</span><span>8am – 6pm</span></li>
+          <li><span>Sunday</span><span style="color:#e55;">Closed</span></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="footer-col-title">Find Us</div>
+        <div class="map-embed">
+          <iframe
+            src="https://www.google.com/maps?q=University+of+Portsmouth,+UK&output=embed"
+            width="100%" height="200"
+            style="border:0;display:block;"
+            allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Sharp Cuts Barber. All Rights Reserved.</p>
+      <p>Designed with <span style="color:var(--gold);">♥</span> in Portsmouth</p>
+    </div>
+  </div>
+</footer>
+<!-- FOOTER END -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/script.js"></script>
+  <script src="assets/js/profile.js"></script>
+  <script src="assets/js/account.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharp Cuts — Products</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+  <!-- Admin CSS -->
+  <link rel="stylesheet" href="/admin/assets/css/admin.css">
+
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    try {
+      const token = localStorage.getItem("token");
+      const user  = JSON.parse(localStorage.getItem("user") || "null");
+
+      if (!token || !user || user.role !== "admin") {
+        window.location.href = "/admin/login.html";
+      }
+    } catch {
+      window.location.href = "/admin/login.html";
+    }
+  </script>
+</head>
+
+<body>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="bi bi-scissors"></i></div>
+    <div>
+      <div class="brand-name">Sharp Cuts</div>
+      <div class="brand-sub">Admin Panel</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="/admin/index.html" class="nav-item">Dashboard</a>
+    <a href="/admin/bookings.html" class="nav-item">Bookings</a>
+    <a href="/admin/orders.html" class="nav-item">Orders</a>
+    <a href="/admin/barbers.html" class="nav-item">Barbers</a>
+    <a href="/admin/services.html" class="nav-item">Services</a>
+    <a href="/admin/service-categories.html" class="nav-item">Service Categories</a>
+    <a href="/admin/products.html" class="nav-item active">Products</a>
+    <a href="/admin/testimonials.html" class="nav-item">Testimonials</a>
+    <a href="/admin/users.html" class="nav-item">Users</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="admin-avatar"><i class="bi bi-person-fill"></i></div>
+
+    <div class="admin-info">
+      <div class="admin-name" id="adminName"></div>
+      <div class="admin-email" id="adminEmail"></div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">
+      <i class="bi bi-box-arrow-right"></i>
+    </button>
+  </div>
+</aside>
+
+<header class="topbar">
+  <span class="topbar-title">Products</span>
+</header>
+
+<div class="main">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Products</h3>
+
+    <button class="btn btn-warning" onclick="openModal()">
+      + Add Product
+    </button>
+  </div>
+
+  <table id="productsTable" class="display table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Image</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="productsBody"></tbody>
+  </table>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="productModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Add Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label>Name</label>
+          <input type="text" id="fName" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label>Description</label>
+          <textarea id="fDescription" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label>Price</label>
+          <input type="number" id="fPrice" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label>Stock</label>
+          <input type="number" id="fStock" class="form-control">
+        </div>
+
+        <!-- MULTER FILE UPLOAD -->
+        <div class="mb-3">
+          <label>Product Image</label>
+          <input type="file" id="fImage" class="form-control" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+          <label>Status</label>
+          <select id="fActive" class="form-select">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-warning" onclick="saveProduct()">Save</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+let editId = null;
+let products = [];
+const modal = new bootstrap.Modal(document.getElementById('productModal'));
+
+function getToken() {
+  return localStorage.getItem("token");
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = "/admin/login.html";
+}
+
+// Optional: fill admin info safely
+const user = JSON.parse(localStorage.getItem("user") || "null");
+
+if (user) {
+  document.getElementById("adminName").innerText =
+    user.first_name ? `${user.first_name} ${user.last_name}` : "Admin";
+
+  document.getElementById("adminEmail").innerText =
+    user.email || "";
+}
+
+/* ───────── LOAD ───────── */
+async function loadProducts() {
+  const res = await fetch("/api/products");
+  const data = await res.json();
+
+  products = data.data || [];
+
+  document.getElementById("productsBody").innerHTML = products.map((p, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${p.name}</td>
+      <td>${p.description || "-"}</td>
+      <td>£${p.price}</td>
+      <td>${p.stock}</td>
+      <td>${p.image_url ? `<img src="${p.image_url}" width="40">` : "-"}</td>
+      <td>
+        <span class="badge ${p.is_active ? 'bg-success' : 'bg-secondary'}">
+          ${p.is_active ? 'Active' : 'Inactive'}
+        </span>
+      </td>
+      <td>
+        <button class="btn btn-sm btn-outline-secondary" onclick="openModal(${p.product_id})">
+          <i class="bi bi-pencil"></i>
+        </button>
+        <button class="btn btn-sm btn-danger" onclick="deleteProduct(${p.product_id})">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    </tr>
+  `).join("");
+
+  if ($.fn.DataTable.isDataTable('#productsTable')) {
+    $('#productsTable').DataTable().destroy();
+  }
+
+  $('#productsTable').DataTable();
+}
+
+loadProducts();
+
+/* ───────── OPEN ───────── */
+function openModal(id = null) {
+  editId = id;
+  resetForm();
+
+  if (id) {
+    const p = products.find(x => x.product_id === id);
+
+    fName.value = p.name;
+    fDescription.value = p.description;
+    fPrice.value = p.price;
+    fStock.value = p.stock;
+    fActive.value = p.is_active ? "true" : "false";
+
+    document.getElementById("modalTitle").innerText = "Edit Product";
+  } else {
+    document.getElementById("modalTitle").innerText = "Add Product";
+  }
+
+  modal.show();
+}
+
+/* ───────── RESET ───────── */
+function resetForm() {
+  fName.value = "";
+  fDescription.value = "";
+  fPrice.value = "";
+  fStock.value = "";
+  fImage.value = "";
+  fActive.value = "true";
+}
+
+/* ───────── SAVE (FIXED AUTH) ───────── */
+async function saveProduct() {
+
+  const formData = new FormData();
+
+  formData.append("name", fName.value);
+  formData.append("description", fDescription.value);
+  formData.append("price", fPrice.value);
+  formData.append("stock", fStock.value);
+  formData.append("is_active", fActive.value === "true");
+
+  if (fImage.files[0]) {
+    formData.append("image", fImage.files[0]);
+  }
+
+  const res = await fetch(
+    editId ? `/api/products/${editId}` : "/api/products",
+    {
+      method: editId ? "PUT" : "POST",
+      headers: {
+        Authorization: "Bearer " + getToken()
+      },
+      body: formData
+    }
+  );
+
+  const data = await res.json();
+
+  if (!data.success) {
+    Swal.fire("Error", data.message, "error");
+    return;
+  }
+
+  modal.hide();
+  loadProducts();
+
+  Swal.fire("Success", editId ? "Updated" : "Created", "success");
+}
+
+/* ───────── DELETE (FIXED AUTH) ───────── */
+async function deleteProduct(id) {
+
+  const res = await fetch(`/api/products/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + getToken()
+    }
+  });
+
+  const data = await res.json();
+
+  if (!data.success) {
+    Swal.fire("Error", data.message, "error");
+    return;
+  }
+
+  loadProducts();
+  Swal.fire("Deleted", "Product removed", "success");
+}
+
+</script>
+
+</body>
+</html>
